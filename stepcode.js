@@ -17,19 +17,29 @@ bus.on('output-request', (content) => {
 const codesPath = 'codes';
 
 fs.readdirSync(codesPath).forEach(async (file) => {
+    const entries = [];
     if (file.endsWith('.stepcode')) {
         const content = fs.readFileSync(path.join(codesPath, file), 'utf8');
         const name = getName(file);
         const description = await getDescription(content);
-        const image = await getAvatar(content);
+        const image = await getAvatar(content, file);
         const result = {
             name: name,
-            description: messages.join('\n'),
+            description: description,
             image: image,
         };
-        console.log(result);
+        entries.push(result);
     }
+    writeToFile(entries);
 });
+
+
+function writeToFile(entries) {
+    fs.writeFile('src/assets/entries.json', JSON.stringify(entries), function (err) {
+        if (err) return console.log(err);
+        console.log('Done!');
+    });
+}
 
 async function getUserAvatarUrl(pullRequestNumber) {
     const {data: pullRequest} = await octokit.rest.pulls.get({
@@ -52,19 +62,21 @@ export function getName(file) {
     return namePart.replace(/_/g, ' ');
 }
 
-export async function getAvatar(code) {
+export async function getAvatar(code, file) {
     const prMatch = code.match(/#(\d+)/);
     if (prMatch) {
         const pullRequestNumber = prMatch[1];
         return await getUserAvatarUrl(pullRequestNumber);
     }
     const lastPr = await getLatestPR();
+    code = `// #${lastPr}\n${code}`
+    fs.writeFileSync(path.join(codesPath, file), code);
     return await getUserAvatarUrl(lastPr);
 }
 
 
 async function getLatestPR() {
-    const {data: pullRequests, ...rest} = await octokit.rest.pulls.get({
+    const {data: pullRequests} = await octokit.rest.pulls.get({
         owner: OWNER,
         repo: REPO,
         state: 'all'
