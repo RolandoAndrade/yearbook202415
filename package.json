@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "stepcode": "node stepcode.js",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@octokit/rest": "^20.0.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "stepcode": "^0.12.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
