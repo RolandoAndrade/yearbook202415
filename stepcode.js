@@ -7,7 +7,7 @@ const bus = new EventBus();
 const octokit = new Octokit();
 
 const OWNER = 'RolandoAndrade';
-const REPO = 'stepcode-editor';
+const REPO = 'yearbook202415';
 
 let messages = [];
 bus.on('output-request', (content) => {
