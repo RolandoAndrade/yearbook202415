@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Build 🔧
+          run: npm run build
+
+        - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@v4
+          with:
+            branch: gh-pages
+            folder: dist
