@@ -84,7 +84,7 @@ async function getLatestPR() {
     const {data: pullRequests} = await octokit.rest.pulls.get({
         owner: OWNER,
         repo: REPO,
-        state: 'all'
+        state: 'closed'
     });
 
     if (pullRequests.length > 0) {
