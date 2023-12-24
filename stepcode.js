@@ -22,8 +22,10 @@ for (const file of fs.readdirSync(codesPath)) {
         const content = fs.readFileSync(path.join(codesPath, file), 'utf8');
         const name = getName(file);
         const description = await getDescription(content);
-        const image = await getAvatar(content, file);
+        const prNumber = await getPRNumber(content, file);
+        const image = await getUserAvatarUrl(prNumber);
         const result = {
+            number: prNumber,
             name: name,
             description: description,
             image: image,
@@ -33,12 +35,12 @@ for (const file of fs.readdirSync(codesPath)) {
         throw new Error(`Expected file ${file} to end with .stepcode`);
     }
 }
+entries.sort((a, b) => a.number - b.number);
 
 writeToFile(entries);
 
 
 function writeToFile(entries) {
-    console.log(entries);
     fs.writeFile('src/assets/entries.json', JSON.stringify(entries), function (err) {
         if (err) return console.log(err);
     });
@@ -65,16 +67,16 @@ export function getName(file) {
     return namePart.replace(/_/g, ' ');
 }
 
-export async function getAvatar(code, file) {
+async function getPRNumber(code, file) {
     const prMatch = code.match(/#(\d+)/);
     if (prMatch) {
         const pullRequestNumber = prMatch[1];
-        return await getUserAvatarUrl(pullRequestNumber);
+        return +pullRequestNumber;
     }
     const lastPr = await getLatestPR();
     code = `// #${lastPr}\n${code}`
     fs.writeFileSync(path.join(codesPath, file), code);
-    return await getUserAvatarUrl(lastPr);
+    return +lastPr;
 }
 
 
