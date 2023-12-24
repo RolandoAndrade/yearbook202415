@@ -15,9 +15,9 @@ bus.on('output-request', (content) => {
 })
 
 const codesPath = 'codes';
+const entries = [];
 
-fs.readdirSync(codesPath).forEach(async (file) => {
-    const entries = [];
+for (const file of fs.readdirSync(codesPath)) {
     if (file.endsWith('.stepcode')) {
         const content = fs.readFileSync(path.join(codesPath, file), 'utf8');
         const name = getName(file);
@@ -29,15 +29,18 @@ fs.readdirSync(codesPath).forEach(async (file) => {
             image: image,
         };
         entries.push(result);
+    } else {
+        throw new Error(`Expected file ${file} to end with .stepcode`);
     }
-    writeToFile(entries);
-});
+}
+
+writeToFile(entries);
 
 
 function writeToFile(entries) {
+    console.log(entries);
     fs.writeFile('src/assets/entries.json', JSON.stringify(entries), function (err) {
         if (err) return console.log(err);
-        console.log('Done!');
     });
 }
 
