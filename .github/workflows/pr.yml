@@ -4,9 +4,6 @@ on:
     branches:
       - master
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +16,4 @@ jobs:
 
       - name: Execute StepCode 👩🏻‍💻
         run: npm run stepcode
-
-      - name: Commit & Push changes 🫡
-        uses: stefanzweifel/git-auto-commit-action@v5
 
