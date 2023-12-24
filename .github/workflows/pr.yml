@@ -20,9 +20,3 @@ jobs:
       - name: Execute StepCode 👩🏻‍💻
         run: npm run stepcode
 
-      - name: Commit & Push changes 🫡
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.REPO_TOKEN }}
-          branch: ${{ github.head_ref }}
-
