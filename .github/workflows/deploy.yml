@@ -12,8 +12,20 @@ jobs:
         - name: Checkout 🛎️
           uses: actions/checkout@v3
 
+        - name: Install Dependencies 🏗️
+          run: npm install
+
+        - name: Execute StepCode 👩🏻‍💻
+          run: npm run stepcode
+
+        - name: Commit & Push changes 🫡
+          uses: actions-js/push@master
+          with:
+            github_token: ${{ secrets.REPO_TOKEN }}
+            branch: ${{ github.head_ref }}
+
         - name: Build 🔧
-          run: npm install && npm run build
+          run: npm run build
 
         - name: Deploy 🚀
           uses: JamesIves/github-pages-deploy-action@v4
