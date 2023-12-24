@@ -28,7 +28,7 @@ jobs:
       - name: Commit & Push changes 🫡
         uses: actions-js/push@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.REPO_TOKEN }}
 
       - name: Build 🔧
         run: npm run build
