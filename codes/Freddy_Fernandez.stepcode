@@ -1,0 +1,7 @@
+Algoritmo Anuario_Freddy
+    Definir mensaje Como Cadena;
+
+    Escribir "La asignatura de “Fundamento de Programación” se convirtió para mí en un lugar de disfrute. Mis compañeros, mi profesor, los proyectos y actividades hicieron que esta catedra quede enmarcada para mí.";
+    Leer mensaje;
+    
+FinAlgoritmo
