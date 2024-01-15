@@ -14,6 +14,10 @@ bus.on('output-request', (content) => {
     messages.push(content);
 })
 
+bus.on('input-request', (resolve) => {
+    resolve('')
+})
+
 const codesPath = 'codes';
 const entries = [];
 
